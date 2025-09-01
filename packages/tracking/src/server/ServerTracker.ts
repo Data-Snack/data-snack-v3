@@ -1,6 +1,7 @@
 import { TrackingEvent } from '@data-snack/core';
-import type { EventType } from '@data-snack/core';
 import { createServerDatabaseClient } from '@data-snack/database';
+
+type EventType = TrackingEvent['type'];
 
 export interface ServerTrackingConfig {
   enableGTMServer?: boolean;
@@ -11,7 +12,7 @@ export interface ServerTrackingConfig {
 
 export class ServerTracker {
   private config: ServerTrackingConfig;
-  private db;
+  protected db: any;
 
   constructor(config: ServerTrackingConfig = {}) {
     this.config = {
@@ -163,7 +164,7 @@ export class ServerTracker {
 
 // Middleware for automatic server-side tracking
 export function createTrackingMiddleware(tracker: ServerTracker) {
-  return async (request: Request, response: Response, next: () => void) => {
+  return async (request: Request, _response: Response, next: () => void) => {
     const startTime = Date.now();
 
     // Track page view for GET requests

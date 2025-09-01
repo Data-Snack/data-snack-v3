@@ -4,6 +4,7 @@
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "moduleResolution": "bundler",
+    "baseUrl": ".",
     "resolveJsonModule": true,
     "allowJs": true,
     "checkJs": false,
@@ -38,7 +39,8 @@
     "paths": {
       "@data-snack/core": ["./packages/core/src"],
       "@data-snack/ui": ["./packages/ui/src"],
-      "@data-snack/tracking": ["./packages/tracking/src"]
+      "@data-snack/tracking": ["./packages/tracking/src"],
+      "@data-snack/database": ["./packages/database/src"]
     }
   },
   "exclude": [

@@ -224,8 +224,8 @@ export function ConsentBanner({
       <div className="max-w-6xl mx-auto">
         <h3 className="text-lg font-semibold mb-2">🍪 Data Snack Tracking</h3>
         <p className="text-sm mb-4">
-          We use cookies and tracking to improve your experience and show you how your data creates value. 
-          This is educational - we're transparent about everything we collect!
+          We use cookies and tracking to improve your experience and show you how your data creates value.
+          This is educational - we&apos;re transparent about everything we collect!
         </p>
         <div className="flex gap-3">
           <button 
