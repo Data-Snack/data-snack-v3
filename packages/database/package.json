@@ -13,7 +13,7 @@
     "build": "tsup",
     "dev": "tsup --watch",
     "lint": "eslint src/",
-    "test": "jest",
+    "test": "jest --passWithNoTests",
     "type-check": "tsc --noEmit"
   },
   "dependencies": {

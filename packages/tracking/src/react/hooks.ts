@@ -1,6 +1,5 @@
 import { useEffect, useCallback, useRef } from 'react';
 import { DataSnackSDK, ConsentState } from '../sdk/DataSnackSDK';
-import type { SDKConfig } from '../sdk/DataSnackSDK';
 import type { EventType, EventProperties, EventContext } from '@data-snack/core';
 
 // React Hook für DataSnack SDK
@@ -215,11 +214,14 @@ export function useBiometricTracking() {
           pressure: (event as any).pressure || 0.5,
         });
 
-        track('click_dna', {
-          pattern,
-          patternLength: pattern.length,
-          duration: pattern[pattern.length - 1].timestamp - pattern[0].timestamp,
-        });
+          const start = pattern[0];
+          const end = pattern[pattern.length - 1];
+          const duration = start && end ? end.timestamp - start.timestamp : 0;
+          track('click_dna', {
+            pattern,
+            patternLength: pattern.length,
+            duration,
+          });
       }
       pattern.length = 0;
     };

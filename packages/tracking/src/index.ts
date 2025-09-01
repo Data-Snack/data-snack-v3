@@ -14,9 +14,6 @@ export {
   useDataSnackContext 
 } from './react/provider';
 
-// Server-side tracking
-export * from './server/ServerTracker';
-
 // Re-export core types
 export type { TrackingEvent, EventType, EventContext, EventProperties } from '@data-snack/core';
 export type { WithTrackingProps } from './react/provider';
