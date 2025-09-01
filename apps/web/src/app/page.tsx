@@ -9,10 +9,10 @@ import { ConsentBanner } from '@/components/tracking/ConsentBanner';
 
 export const metadata: Metadata = {
   title: 'Data Snack - Entdecke deine digitale DNA',
-  description: 'Interaktive Data Snacks zeigen transparent, was Big Tech Ã¼ber dich weiÃ. Lerne durch Selbsterfahrung Ã¼ber Tracking, Privacy und deine digitale IdentitÃ¤t.',
+  description: 'Interaktive Data Snacks zeigen transparent, was Big Tech über dich weiß. Lerne durch Selbsterfahrung über Tracking, Privacy und deine digitale Identität.',
   openGraph: {
     title: 'Data Snack - Entdecke deine digitale DNA',
-    description: 'Interaktive Data Snacks zeigen transparent, was Big Tech Ã¼ber dich weiÃ',
+    description: 'Interaktive Data Snacks zeigen transparent, was Big Tech über dich weiß',
     images: ['/og-home.png'],
   },
 };
@@ -36,7 +36,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold text-gradient mb-4">
-              ð Live Analytics Dashboard
+              📊 Live Analytics Dashboard
             </h2>
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
               Sieh in Echtzeit, wie Tracking funktioniert - transparent und ehrlich.
@@ -58,11 +58,11 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gradient mb-4">
-              ðª Interaktive Data Snacks
+              🍪 Interaktive Data Snacks
             </h2>
             <p className="text-muted-foreground text-lg max-w-3xl mx-auto">
-              Entdecke in 30 Sekunden bis 5 Minuten, was Big Tech Ã¼ber dich weiÃ. 
-              Jeder Snack ist eine Lernerfahrung Ã¼ber deine digitale IdentitÃ¤t.
+              Entdecke in 30 Sekunden bis 5 Minuten, was Big Tech über dich weiß.
+              Jeder Snack ist eine Lernerfahrung über deine digitale Identität.
             </p>
           </div>
           
@@ -87,7 +87,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold text-gradient mb-4">
-              ð Live Telemetry
+              🔍 Live Telemetry
             </h2>
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
               Sieh live, welche Daten gerade erfasst werden. Absolute Transparenz.
@@ -109,7 +109,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             <div>
-              <h3 className="text-xl font-bold mb-4">ð¡ï¸ Privacy First</h3>
+              <h3 className="text-xl font-bold mb-4">🛡️ Privacy First</h3>
               <p className="text-muted-foreground mb-4">
                 Wir sammeln Daten nur mit deiner Einwilligung und zeigen dir 
                 transparent, was wir tun.
@@ -131,14 +131,14 @@ export default function HomePage() {
             </div>
             
             <div>
-              <h3 className="text-xl font-bold mb-4">ð Ãber Data Snack</h3>
+              <h3 className="text-xl font-bold mb-4">📚 Über Data Snack</h3>
               <p className="text-muted-foreground mb-4">
                 Ein Bildungsprojekt, das zeigt, wie Tracking funktioniert - 
                 transparent, ehrlich und lehrreich.
               </p>
               <div className="space-y-2">
                 <a href="/about" className="block text-primary hover:text-primary/80">
-                  Ãber das Projekt
+                  Über das Projekt
                 </a>
                 <a href="/methodology" className="block text-primary hover:text-primary/80">
                   Methodik
@@ -150,7 +150,7 @@ export default function HomePage() {
             </div>
             
             <div>
-              <h3 className="text-xl font-bold mb-4">ð Links</h3>
+              <h3 className="text-xl font-bold mb-4">🔗 Links</h3>
               <div className="space-y-2">
                 <a 
                   href="https://github.com/data-snack/v3" 
