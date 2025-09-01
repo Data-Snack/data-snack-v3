@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
-import { DataSnackProvider } from '@data-snack/tracking';
+import { DataSnackProvider } from '@data-snack/tracking/react';
 import { Analytics } from '@vercel/analytics/react';
 import { ThemeProvider } from '@/components/providers/ThemeProvider';
 import { TrackingProvider } from '@/components/providers/TrackingProvider';
