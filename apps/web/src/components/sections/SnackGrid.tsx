@@ -1,1 +1,118 @@
-'use client';\n\nexport function SnackGrid() {\n  const snacks = [\n    {\n      id: 'privacy-leak-detector',\n      title: '🕵️ Privacy Leak Detector',\n      description: 'Entdecke, was dein Browser über dich verrät',\n      duration: '2-3 min',\n      difficulty: 'Einsteiger',\n      category: 'Tracking Exposed',\n      xp: 250,\n      status: 'available'\n    },\n    {\n      id: 'click-dna-analyzer', \n      title: '🖱️ Click DNA Analyzer',\n      description: 'Deine Persönlichkeit aus Click-Patterns',\n      duration: '30 sec',\n      difficulty: 'Einsteiger', \n      category: 'Tracking Exposed',\n      xp: 200,\n      status: 'available'\n    },\n    {\n      id: 'scroll-behavior-decoder',\n      title: '📜 Scroll Behavior Decoder', \n      description: 'Wie dein Scrollverhalten dich verrät',\n      duration: '5 min',\n      difficulty: 'Fortgeschritten',\n      category: 'Tracking Exposed', \n      xp: 350,\n      status: 'coming-soon'\n    },\n    {\n      id: 'keyboard-dna-sequencer',\n      title: '⌨️ Keyboard DNA Sequencer',\n      description: 'Biometrie durch Tipprhythmus',\n      duration: '3 min', \n      difficulty: 'Fortgeschritten',\n      category: 'Tracking Exposed',\n      xp: 300,\n      status: 'coming-soon'\n    },\n    {\n      id: 'social-addiction-radar',\n      title: '📱 Social Addiction Radar',\n      description: 'Infinite Scroll Manipulation Analysis',\n      duration: '5 min',\n      difficulty: 'Expert',\n      category: 'Psychological Profiling', \n      xp: 500,\n      status: 'coming-soon'\n    },\n    {\n      id: 'dark-pattern-detector',\n      title: '🕳️ Dark Pattern Detector',\n      description: 'UX Manipulation Test',\n      duration: '4 min',\n      difficulty: 'Expert',\n      category: 'Psychological Profiling',\n      xp: 400,\n      status: 'coming-soon'\n    }\n  ];\n\n  return (\n    <div className=\"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8\">\n      {snacks.map((snack) => (\n        <div \n          key={snack.id} \n          className=\"glass rounded-2xl p-6 hover:bg-white/10 transition-all duration-300 hover:scale-105 cursor-pointer group\"\n        >\n          <div className=\"flex items-start justify-between mb-4\">\n            <div className=\"flex items-center gap-2\">\n              <span className=\"text-sm font-medium px-2 py-1 rounded-full bg-primary/20 text-primary\">\n                {snack.category}\n              </span>\n              {snack.status === 'coming-soon' && (\n                <span className=\"text-xs px-2 py-1 rounded-full bg-yellow-500/20 text-yellow-400\">\n                  Coming Soon\n                </span>\n              )}\n            </div>\n            <div className=\"text-sm text-muted-foreground\">\n              +{snack.xp} XP\n            </div>\n          </div>\n          \n          <h3 className=\"text-xl font-bold mb-3 group-hover:text-primary transition-colors\">\n            {snack.title}\n          </h3>\n          \n          <p className=\"text-muted-foreground mb-4 leading-relaxed\">\n            {snack.description}\n          </p>\n          \n          <div className=\"flex items-center justify-between text-sm\">\n            <div className=\"flex items-center gap-4\">\n              <span className=\"text-muted-foreground\">\n                ⏱️ {snack.duration}\n              </span>\n              <span className=\"text-muted-foreground\">\n                📊 {snack.difficulty}\n              </span>\n            </div>\n            \n            <div className=\"opacity-0 group-hover:opacity-100 transition-opacity\">\n              <span className=\"text-primary font-medium\">\n                {snack.status === 'available' ? 'Starten →' : 'Bald →'}\n              </span>\n            </div>\n          </div>\n        </div>\n      ))}\n    </div>\n  );\n}\n
+'use client';
+
+export function SnackGrid() {
+  const snacks = [
+    {
+      id: 'privacy-leak-detector',
+      title: 'ðµï¸ Privacy Leak Detector',
+      description: 'Entdecke, was dein Browser Ã¼ber dich verrÃ¤t',
+      duration: '2-3 min',
+      difficulty: 'Einsteiger',
+      category: 'Tracking Exposed',
+      xp: 250,
+      status: 'available'
+    },
+    {
+      id: 'click-dna-analyzer', 
+      title: 'ð±ï¸ Click DNA Analyzer',
+      description: 'Deine PersÃ¶nlichkeit aus Click-Patterns',
+      duration: '30 sec',
+      difficulty: 'Einsteiger', 
+      category: 'Tracking Exposed',
+      xp: 200,
+      status: 'available'
+    },
+    {
+      id: 'scroll-behavior-decoder',
+      title: 'ð Scroll Behavior Decoder', 
+      description: 'Wie dein Scrollverhalten dich verrÃ¤t',
+      duration: '5 min',
+      difficulty: 'Fortgeschritten',
+      category: 'Tracking Exposed', 
+      xp: 350,
+      status: 'coming-soon'
+    },
+    {
+      id: 'keyboard-dna-sequencer',
+      title: 'â¨ï¸ Keyboard DNA Sequencer',
+      description: 'Biometrie durch Tipprhythmus',
+      duration: '3 min', 
+      difficulty: 'Fortgeschritten',
+      category: 'Tracking Exposed',
+      xp: 300,
+      status: 'coming-soon'
+    },
+    {
+      id: 'social-addiction-radar',
+      title: 'ð± Social Addiction Radar',
+      description: 'Infinite Scroll Manipulation Analysis',
+      duration: '5 min',
+      difficulty: 'Expert',
+      category: 'Psychological Profiling', 
+      xp: 500,
+      status: 'coming-soon'
+    },
+    {
+      id: 'dark-pattern-detector',
+      title: 'ð³ï¸ Dark Pattern Detector',
+      description: 'UX Manipulation Test',
+      duration: '4 min',
+      difficulty: 'Expert',
+      category: 'Psychological Profiling',
+      xp: 400,
+      status: 'coming-soon'
+    }
+  ];
+
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {snacks.map((snack) => (
+        <div 
+          key={snack.id} 
+          className="glass rounded-2xl p-6 hover:bg-white/10 transition-all duration-300 hover:scale-105 cursor-pointer group"
+        >
+          <div className="flex items-start justify-between mb-4">
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-medium px-2 py-1 rounded-full bg-primary/20 text-primary">
+                {snack.category}
+              </span>
+              {snack.status === 'coming-soon' && (
+                <span className="text-xs px-2 py-1 rounded-full bg-yellow-500/20 text-yellow-400">
+                  Coming Soon
+                </span>
+              )}
+            </div>
+            <div className="text-sm text-muted-foreground">
+              +{snack.xp} XP
+            </div>
+          </div>
+          
+          <h3 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors">
+            {snack.title}
+          </h3>
+          
+          <p className="text-muted-foreground mb-4 leading-relaxed">
+            {snack.description}
+          </p>
+          
+          <div className="flex items-center justify-between text-sm">
+            <div className="flex items-center gap-4">
+              <span className="text-muted-foreground">
+                â±ï¸ {snack.duration}
+              </span>
+              <span className="text-muted-foreground">
+                ð {snack.difficulty}
+              </span>
+            </div>
+            
+            <div className="opacity-0 group-hover:opacity-100 transition-opacity">
+              <span className="text-primary font-medium">
+                {snack.status === 'available' ? 'Starten â' : 'Bald â'}
+              </span>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}

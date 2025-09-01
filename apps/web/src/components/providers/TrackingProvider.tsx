@@ -1,1 +1,40 @@
-'use client';\n\nimport { ReactNode } from 'react';\nimport { DataSnackProvider, TrackingDebugger } from '@data-snack/tracking';\n\ninterface TrackingProviderProps {\n  children: ReactNode;\n}\n\nexport function TrackingProvider({ children }: TrackingProviderProps) {\n  const trackingConfig = {\n    endpoint: '/api/track',\n    debug: process.env.NODE_ENV === 'development',\n    batchSize: 10,\n    flushInterval: 5000,\n    maxRetries: 3,\n    timeout: 10000,\n  };\n\n  return (\n    <DataSnackProvider\n      config={trackingConfig}\n      onInitialized={(sdk) => {\n        console.log('🚀 Data Snack SDK initialized:', sdk);\n        \n        // Track initial page load\n        sdk.track('app_initialized', {\n          timestamp: Date.now(),\n          userAgent: navigator.userAgent,\n          screen: `${screen.width}x${screen.height}`,\n          language: navigator.language,\n        });\n      }}\n      onError={(error) => {\n        console.error('❌ Data Snack SDK error:', error);\n      }}\n    >\n      {children}\n      \n      {/* Debug panel in development */}\n      {process.env.NODE_ENV === 'development' && <TrackingDebugger />}\n    </DataSnackProvider>\n  );\n}\n", "oldText": "", "path": "/Users/frankbultge/Documents/GitHub/data-snack-v3/apps/web/src/components/providers/TrackingProvider.tsx"}]
+'use client';
+
+import { ReactNode } from 'react';
+import { DataSnackProvider, TrackingDebugger } from '@data-snack/tracking';
+
+interface TrackingProviderProps {
+  children: ReactNode;
+}
+
+export function TrackingProvider({ children }: TrackingProviderProps) {
+  const trackingConfig = {
+    endpoint: '/api/track',
+    debug: process.env.NODE_ENV === 'development',
+    batchSize: 10,
+    flushInterval: 5000,
+    maxRetries: 3,
+    timeout: 10000,
+  };
+
+  return (
+    <DataSnackProvider
+      config={trackingConfig}
+      onInitialized={(sdk) => {
+        console.log('🚀 Data Snack SDK initialized:', sdk);
+        sdk.track('app_initialized', {
+          timestamp: Date.now(),
+          userAgent: navigator.userAgent,
+          screen: `${screen.width}x${screen.height}`,
+          language: navigator.language,
+        });
+      }}
+      onError={(error) => {
+        console.error('🚨 Tracking error:', error);
+      }}
+    >
+      {children}
+      {process.env.NODE_ENV === 'development' && <TrackingDebugger />}
+    </DataSnackProvider>
+  );
+}

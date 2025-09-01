@@ -1,1 +1,85 @@
-'use client';\n\nimport { motion } from 'framer-motion';\nimport { Button } from '@data-snack/ui';\nimport { useDataSnack } from '@data-snack/tracking';\n\nexport function Hero() {\n  const { track } = useDataSnack();\n\n  const handleGetStarted = () => {\n    track('hero_cta_click', {\n      action: 'get_started',\n      timestamp: Date.now(),\n    });\n  };\n\n  return (\n    <div className=\"text-center max-w-6xl mx-auto\">\n      <motion.div\n        initial={{ opacity: 0, y: 20 }}\n        animate={{ opacity: 1, y: 0 }}\n        transition={{ duration: 0.8 }}\n      >\n        <h1 className=\"text-6xl md:text-8xl font-bold text-gradient mb-8\">\n          Data Snack\n        </h1>\n        \n        <p className=\"text-xl md:text-2xl text-muted-foreground mb-12 max-w-4xl mx-auto leading-relaxed\">\n          🍪 Entdecke in <strong className=\"text-primary\">30 Sekunden</strong>, \n          was Big Tech über dich weiß - transparent, ehrlich und lehrreich.\n        </p>\n        \n        <div className=\"flex flex-col sm:flex-row gap-6 justify-center items-center mb-16\">\n          <Button\n            size=\"lg\"\n            className=\"btn-primary text-lg px-8 py-4\"\n            onClick={handleGetStarted}\n          >\n            🚀 Jetzt starten\n          </Button>\n          \n          <Button\n            variant=\"ghost\"\n            size=\"lg\"\n            className=\"btn-ghost text-lg px-8 py-4\"\n            onClick={() => {\n              track('hero_learn_more_click', {\n                action: 'learn_more',\n                timestamp: Date.now(),\n              });\n            }}\n          >\n            📚 Mehr erfahren\n          </Button>\n        </div>\n        \n        <div className=\"grid grid-cols-1 md:grid-cols-3 gap-8 text-center\">\n          <div className=\"glass rounded-2xl p-6\">\n            <div className=\"text-3xl mb-4\">🔍</div>\n            <h3 className=\"text-xl font-semibold mb-2\">Transparent</h3>\n            <p className=\"text-muted-foreground\">\n              Sieh genau, welche Daten erfasst werden - ohne Verstecken\n            </p>\n          </div>\n          \n          <div className=\"glass rounded-2xl p-6\">\n            <div className=\"text-3xl mb-4\">🎓</div>\n            <h3 className=\"text-xl font-semibold mb-2\">Lehrreich</h3>\n            <p className=\"text-muted-foreground\">\n              Lerne durch Selbsterfahrung über deine digitale Identität\n            </p>\n          </div>\n          \n          <div className=\"glass rounded-2xl p-6\">\n            <div className=\"text-3xl mb-4\">🛡️</div>\n            <h3 className=\"text-xl font-semibold mb-2\">Privacy-First</h3>\n            <p className=\"text-muted-foreground\">\n              GDPR-konform mit vollständiger Consent-Kontrolle\n            </p>\n          </div>\n        </div>\n      </motion.div>\n    </div>\n  );\n}\n
+'use client';
+
+import { motion } from 'framer-motion';
+import { Button } from '@data-snack/ui';
+import { useDataSnack } from '@data-snack/tracking';
+
+export function Hero() {
+  const { track } = useDataSnack();
+
+  const handleGetStarted = () => {
+    track('hero_cta_click', {
+      action: 'get_started',
+      timestamp: Date.now(),
+    });
+  };
+
+  return (
+    <div className="text-center max-w-6xl mx-auto">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+      >
+        <h1 className="text-6xl md:text-8xl font-bold text-gradient mb-8">
+          Data Snack
+        </h1>
+        
+        <p className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-4xl mx-auto leading-relaxed">
+          ðª Entdecke in <strong className="text-primary">30 Sekunden</strong>, 
+          was Big Tech Ã¼ber dich weiÃ - transparent, ehrlich und lehrreich.
+        </p>
+        
+        <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16">
+          <Button
+            size="lg"
+            className="btn-primary text-lg px-8 py-4"
+            onClick={handleGetStarted}
+          >
+            ð Jetzt starten
+          </Button>
+          
+          <Button
+            variant="ghost"
+            size="lg"
+            className="btn-ghost text-lg px-8 py-4"
+            onClick={() => {
+              track('hero_learn_more_click', {
+                action: 'learn_more',
+                timestamp: Date.now(),
+              });
+            }}
+          >
+            ð Mehr erfahren
+          </Button>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+          <div className="glass rounded-2xl p-6">
+            <div className="text-3xl mb-4">ð</div>
+            <h3 className="text-xl font-semibold mb-2">Transparent</h3>
+            <p className="text-muted-foreground">
+              Sieh genau, welche Daten erfasst werden - ohne Verstecken
+            </p>
+          </div>
+          
+          <div className="glass rounded-2xl p-6">
+            <div className="text-3xl mb-4">ð</div>
+            <h3 className="text-xl font-semibold mb-2">Lehrreich</h3>
+            <p className="text-muted-foreground">
+              Lerne durch Selbsterfahrung Ã¼ber deine digitale IdentitÃ¤t
+            </p>
+          </div>
+          
+          <div className="glass rounded-2xl p-6">
+            <div className="text-3xl mb-4">ð¡ï¸</div>
+            <h3 className="text-xl font-semibold mb-2">Privacy-First</h3>
+            <p className="text-muted-foreground">
+              GDPR-konform mit vollstÃ¤ndiger Consent-Kontrolle
+            </p>
+          </div>
+        </div>
+      </motion.div>
+    </div>
+  );
+}

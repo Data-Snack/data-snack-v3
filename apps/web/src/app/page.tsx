@@ -1,1 +1,203 @@
-import { Suspense } from 'react';\nimport { Metadata } from 'next';\nimport { Hero } from '@/components/sections/Hero';\nimport { SnackGrid } from '@/components/sections/SnackGrid';\nimport { StatsOverview } from '@/components/sections/StatsOverview';\nimport { TelemetryPanel } from '@/components/sections/TelemetryPanel';\nimport { ConsentBanner } from '@data-snack/tracking';\nimport { PageTracking } from '@/components/tracking/PageTracking';\n\nexport const metadata: Metadata = {\n  title: 'Data Snack - Entdecke deine digitale DNA',\n  description: 'Interaktive Data Snacks zeigen transparent, was Big Tech über dich weiß. Lerne durch Selbsterfahrung über Tracking, Privacy und deine digitale Identität.',\n  openGraph: {\n    title: 'Data Snack - Entdecke deine digitale DNA',\n    description: 'Interaktive Data Snacks zeigen transparent, was Big Tech über dich weiß',\n    images: ['/og-home.png'],\n  },\n};\n\nexport default function HomePage() {\n  return (\n    <>\n      {/* Page Tracking */}\n      <PageTracking pageName=\"home\" />\n      \n      {/* Consent Management */}\n      <ConsentBanner\n        onAcceptAll={() => {\n          // Analytics: Track full consent\n          console.log('User granted full consent');\n        }}\n        onDeclineAll={() => {\n          // Analytics: Track minimal consent\n          console.log('User declined tracking');\n        }}\n        onCustomize={() => {\n          // Open consent customization\n          console.log('User wants to customize consent');\n        }}\n      />\n      \n      {/* Hero Section */}\n      <section className=\"min-h-screen flex items-center justify-center px-4 py-20\">\n        <Hero />\n      </section>\n      \n      {/* Statistics Overview */}\n      <section className=\"py-20 px-4\">\n        <div className=\"max-w-7xl mx-auto\">\n          <div className=\"text-center mb-16\">\n            <h2 className=\"text-3xl font-bold text-gradient mb-4\">\n              📊 Live Analytics Dashboard\n            </h2>\n            <p className=\"text-muted-foreground text-lg max-w-2xl mx-auto\">\n              Sieh in Echtzeit, wie Tracking funktioniert - transparent und ehrlich.\n            </p>\n          </div>\n          \n          <Suspense fallback={\n            <div className=\"glass rounded-2xl p-8 animate-pulse\">\n              <div className=\"h-48 bg-white/5 rounded-xl\"></div>\n            </div>\n          }>\n            <StatsOverview />\n          </Suspense>\n        </div>\n      </section>\n      \n      {/* Data Snacks Grid */}\n      <section className=\"py-20 px-4\">\n        <div className=\"max-w-7xl mx-auto\">\n          <div className=\"text-center mb-16\">\n            <h2 className=\"text-4xl font-bold text-gradient mb-4\">\n              🍪 Interaktive Data Snacks\n            </h2>\n            <p className=\"text-muted-foreground text-lg max-w-3xl mx-auto\">\n              Entdecke in 30 Sekunden bis 5 Minuten, was Big Tech über dich weiß. \n              Jeder Snack ist eine Lernerfahrung über deine digitale Identität.\n            </p>\n          </div>\n          \n          <Suspense fallback={\n            <div className=\"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8\">\n              {[...Array(6)].map((_, i) => (\n                <div key={i} className=\"glass rounded-2xl p-6 animate-pulse\">\n                  <div className=\"h-32 bg-white/5 rounded-xl mb-4\"></div>\n                  <div className=\"h-4 bg-white/5 rounded mb-2\"></div>\n                  <div className=\"h-3 bg-white/5 rounded w-3/4\"></div>\n                </div>\n              ))}\n            </div>\n          }>\n            <SnackGrid />\n          </Suspense>\n        </div>\n      </section>\n      \n      {/* Telemetry Panel */}\n      <section className=\"py-20 px-4\">\n        <div className=\"max-w-7xl mx-auto\">\n          <div className=\"text-center mb-16\">\n            <h2 className=\"text-3xl font-bold text-gradient mb-4\">\n              🔍 Live Telemetry\n            </h2>\n            <p className=\"text-muted-foreground text-lg max-w-2xl mx-auto\">\n              Sieh live, welche Daten gerade erfasst werden. Absolute Transparenz.\n            </p>\n          </div>\n          \n          <Suspense fallback={\n            <div className=\"glass rounded-2xl p-8 animate-pulse\">\n              <div className=\"h-96 bg-white/5 rounded-xl\"></div>\n            </div>\n          }>\n            <TelemetryPanel />\n          </Suspense>\n        </div>\n      </section>\n      \n      {/* Footer with Privacy Info */}\n      <footer className=\"py-16 px-4 border-t border-white/10\">\n        <div className=\"max-w-7xl mx-auto\">\n          <div className=\"grid grid-cols-1 md:grid-cols-3 gap-12\">\n            <div>\n              <h3 className=\"text-xl font-bold mb-4\">🛡️ Privacy First</h3>\n              <p className=\"text-muted-foreground mb-4\">\n                Wir sammeln Daten nur mit deiner Einwilligung und zeigen dir \n                transparent, was wir tun.\n              </p>\n              <div className=\"space-y-2 text-sm\">\n                <div className=\"flex items-center gap-2\">\n                  <span className=\"w-2 h-2 bg-green-500 rounded-full\"></span>\n                  GDPR Compliant\n                </div>\n                <div className=\"flex items-center gap-2\">\n                  <span className=\"w-2 h-2 bg-green-500 rounded-full\"></span>\n                  Open Source\n                </div>\n                <div className=\"flex items-center gap-2\">\n                  <span className=\"w-2 h-2 bg-green-500 rounded-full\"></span>\n                  Consent Mode v2\n                </div>\n              </div>\n            </div>\n            \n            <div>\n              <h3 className=\"text-xl font-bold mb-4\">📚 Über Data Snack</h3>\n              <p className=\"text-muted-foreground mb-4\">\n                Ein Bildungsprojekt, das zeigt, wie Tracking funktioniert - \n                transparent, ehrlich und lehrreich.\n              </p>\n              <div className=\"space-y-2\">\n                <a href=\"/about\" className=\"block text-primary hover:text-primary/80\">\n                  Über das Projekt\n                </a>\n                <a href=\"/methodology\" className=\"block text-primary hover:text-primary/80\">\n                  Methodik\n                </a>\n                <a href=\"/privacy\" className=\"block text-primary hover:text-primary/80\">\n                  Datenschutz\n                </a>\n              </div>\n            </div>\n            \n            <div>\n              <h3 className=\"text-xl font-bold mb-4\">🔗 Links</h3>\n              <div className=\"space-y-2\">\n                <a \n                  href=\"https://github.com/data-snack/v3\" \n                  className=\"block text-primary hover:text-primary/80\"\n                  target=\"_blank\"\n                  rel=\"noopener noreferrer\"\n                >\n                  GitHub Repository\n                </a>\n                <a \n                  href=\"https://frankbueltge.de\" \n                  className=\"block text-primary hover:text-primary/80\"\n                  target=\"_blank\"\n                  rel=\"noopener noreferrer\"\n                >\n                  Author: Frank Bueltge\n                </a>\n                <a href=\"/api-docs\" className=\"block text-primary hover:text-primary/80\">\n                  API Documentation\n                </a>\n              </div>\n            </div>\n          </div>\n          \n          <div className=\"mt-12 pt-8 border-t border-white/10 text-center text-muted-foreground\">\n            <p>\n              © 2024 Data Snack. Made with ❤️ for digital privacy education.\n            </p>\n            <p className=\"mt-2 text-sm\">\n              Ein experimentelles Projekt von Frank Bueltge\n            </p>\n          </div>\n        </div>\n      </footer>\n    </>\n  );\n}\n
+import { Suspense } from 'react';
+import { Metadata } from 'next';
+import { Hero } from '@/components/sections/Hero';
+import { SnackGrid } from '@/components/sections/SnackGrid';
+import { StatsOverview } from '@/components/sections/StatsOverview';
+import { TelemetryPanel } from '@/components/sections/TelemetryPanel';
+import { ConsentBanner } from '@data-snack/tracking';
+import { PageTracking } from '@/components/tracking/PageTracking';
+
+export const metadata: Metadata = {
+  title: 'Data Snack - Entdecke deine digitale DNA',
+  description: 'Interaktive Data Snacks zeigen transparent, was Big Tech Ã¼ber dich weiÃ. Lerne durch Selbsterfahrung Ã¼ber Tracking, Privacy und deine digitale IdentitÃ¤t.',
+  openGraph: {
+    title: 'Data Snack - Entdecke deine digitale DNA',
+    description: 'Interaktive Data Snacks zeigen transparent, was Big Tech Ã¼ber dich weiÃ',
+    images: ['/og-home.png'],
+  },
+};
+
+export default function HomePage() {
+  return (
+    <>
+      {/* Page Tracking */}
+      <PageTracking pageName="home" />
+      
+      {/* Consent Management */}
+      <ConsentBanner
+        onAcceptAll={() => {
+          // Analytics: Track full consent
+          console.log('User granted full consent');
+        }}
+        onDeclineAll={() => {
+          // Analytics: Track minimal consent
+          console.log('User declined tracking');
+        }}
+        onCustomize={() => {
+          // Open consent customization
+          console.log('User wants to customize consent');
+        }}
+      />
+      
+      {/* Hero Section */}
+      <section className="min-h-screen flex items-center justify-center px-4 py-20">
+        <Hero />
+      </section>
+      
+      {/* Statistics Overview */}
+      <section className="py-20 px-4">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold text-gradient mb-4">
+              ð Live Analytics Dashboard
+            </h2>
+            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+              Sieh in Echtzeit, wie Tracking funktioniert - transparent und ehrlich.
+            </p>
+          </div>
+          
+          <Suspense fallback={
+            <div className="glass rounded-2xl p-8 animate-pulse">
+              <div className="h-48 bg-white/5 rounded-xl"></div>
+            </div>
+          }>
+            <StatsOverview />
+          </Suspense>
+        </div>
+      </section>
+      
+      {/* Data Snacks Grid */}
+      <section className="py-20 px-4">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-gradient mb-4">
+              ðª Interaktive Data Snacks
+            </h2>
+            <p className="text-muted-foreground text-lg max-w-3xl mx-auto">
+              Entdecke in 30 Sekunden bis 5 Minuten, was Big Tech Ã¼ber dich weiÃ. 
+              Jeder Snack ist eine Lernerfahrung Ã¼ber deine digitale IdentitÃ¤t.
+            </p>
+          </div>
+          
+          <Suspense fallback={
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {[...Array(6)].map((_, i) => (
+                <div key={i} className="glass rounded-2xl p-6 animate-pulse">
+                  <div className="h-32 bg-white/5 rounded-xl mb-4"></div>
+                  <div className="h-4 bg-white/5 rounded mb-2"></div>
+                  <div className="h-3 bg-white/5 rounded w-3/4"></div>
+                </div>
+              ))}
+            </div>
+          }>
+            <SnackGrid />
+          </Suspense>
+        </div>
+      </section>
+      
+      {/* Telemetry Panel */}
+      <section className="py-20 px-4">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold text-gradient mb-4">
+              ð Live Telemetry
+            </h2>
+            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+              Sieh live, welche Daten gerade erfasst werden. Absolute Transparenz.
+            </p>
+          </div>
+          
+          <Suspense fallback={
+            <div className="glass rounded-2xl p-8 animate-pulse">
+              <div className="h-96 bg-white/5 rounded-xl"></div>
+            </div>
+          }>
+            <TelemetryPanel />
+          </Suspense>
+        </div>
+      </section>
+      
+      {/* Footer with Privacy Info */}
+      <footer className="py-16 px-4 border-t border-white/10">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+            <div>
+              <h3 className="text-xl font-bold mb-4">ð¡ï¸ Privacy First</h3>
+              <p className="text-muted-foreground mb-4">
+                Wir sammeln Daten nur mit deiner Einwilligung und zeigen dir 
+                transparent, was wir tun.
+              </p>
+              <div className="space-y-2 text-sm">
+                <div className="flex items-center gap-2">
+                  <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+                  GDPR Compliant
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+                  Open Source
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+                  Consent Mode v2
+                </div>
+              </div>
+            </div>
+            
+            <div>
+              <h3 className="text-xl font-bold mb-4">ð Ãber Data Snack</h3>
+              <p className="text-muted-foreground mb-4">
+                Ein Bildungsprojekt, das zeigt, wie Tracking funktioniert - 
+                transparent, ehrlich und lehrreich.
+              </p>
+              <div className="space-y-2">
+                <a href="/about" className="block text-primary hover:text-primary/80">
+                  Ãber das Projekt
+                </a>
+                <a href="/methodology" className="block text-primary hover:text-primary/80">
+                  Methodik
+                </a>
+                <a href="/privacy" className="block text-primary hover:text-primary/80">
+                  Datenschutz
+                </a>
+              </div>
+            </div>
+            
+            <div>
+              <h3 className="text-xl font-bold mb-4">ð Links</h3>
+              <div className="space-y-2">
+                <a 
+                  href="https://github.com/data-snack/v3" 
+                  className="block text-primary hover:text-primary/80"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  GitHub Repository
+                </a>
+                <a 
+                  href="https://frankbueltge.de" 
+                  className="block text-primary hover:text-primary/80"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Author: Frank Bueltge
+                </a>
+                <a href="/api-docs" className="block text-primary hover:text-primary/80">
+                  API Documentation
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          <div className="mt-12 pt-8 border-t border-white/10 text-center text-muted-foreground">
+            <p>
+              Â© 2024 Data Snack. Made with â¤ï¸ for digital privacy education.
+            </p>
+            <p className="mt-2 text-sm">
+              Ein experimentelles Projekt von Frank Bueltge
+            </p>
+          </div>
+        </div>
+      </footer>
+    </>
+  );
+}
