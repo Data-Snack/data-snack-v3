@@ -108,7 +108,7 @@ export class DataSnackSDK {
       return;
     }
 
-    const event = TrackingEvent.create(
+    let event = TrackingEvent.create(
       type as EventType,
       type as string,
       properties,
@@ -119,7 +119,7 @@ export class DataSnackSDK {
     ).withSession(this.sessionId);
 
     if (this.userId) {
-      event.withUser(this.userId as any);
+      event = event.withUser(this.userId as any);
     }
 
     const queuedEvent: QueuedEvent = {
