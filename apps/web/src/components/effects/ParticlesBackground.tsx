@@ -1,1 +1,104 @@
-'use client';\n\nimport { useEffect, useRef } from 'react';\n\nexport function ParticlesBackground() {\n  const canvasRef = useRef<HTMLCanvasElement>(null);\n\n  useEffect(() => {\n    const canvas = canvasRef.current;\n    if (!canvas) return;\n\n    const ctx = canvas.getContext('2d');\n    if (!ctx) return;\n\n    // Set canvas size\n    const resizeCanvas = () => {\n      canvas.width = window.innerWidth;\n      canvas.height = window.innerHeight;\n    };\n    \n    resizeCanvas();\n    window.addEventListener('resize', resizeCanvas);\n\n    // Particle system\n    const particles: Array<{\n      x: number;\n      y: number;\n      vx: number;\n      vy: number;\n      life: number;\n      maxLife: number;\n      size: number;\n    }> = [];\n\n    const createParticle = () => {\n      return {\n        x: Math.random() * canvas.width,\n        y: canvas.height + 20,\n        vx: (Math.random() - 0.5) * 0.5,\n        vy: -Math.random() * 2 - 1,\n        life: 0,\n        maxLife: Math.random() * 200 + 100,\n        size: Math.random() * 2 + 1,\n      };\n    };\n\n    // Animation loop\n    let animationId: number;\n    \n    const animate = () => {\n      ctx.clearRect(0, 0, canvas.width, canvas.height);\n      \n      // Add new particles\n      if (Math.random() < 0.3) {\n        particles.push(createParticle());\n      }\n      \n      // Update and draw particles\n      for (let i = particles.length - 1; i >= 0; i--) {\n        const particle = particles[i];\n        \n        // Update position\n        particle.x += particle.vx;\n        particle.y += particle.vy;\n        particle.life++;\n        \n        // Calculate opacity based on life\n        const opacity = Math.max(0, 1 - (particle.life / particle.maxLife));\n        \n        // Remove dead particles\n        if (particle.life > particle.maxLife || particle.y < -20) {\n          particles.splice(i, 1);\n          continue;\n        }\n        \n        // Draw particle\n        ctx.save();\n        ctx.globalAlpha = opacity * 0.1;\n        ctx.fillStyle = 'hsl(260, 80%, 60%)';\n        ctx.beginPath();\n        ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);\n        ctx.fill();\n        ctx.restore();\n      }\n      \n      animationId = requestAnimationFrame(animate);\n    };\n    \n    animate();\n\n    return () => {\n      window.removeEventListener('resize', resizeCanvas);\n      cancelAnimationFrame(animationId);\n    };\n  }, []);\n\n  return (\n    <canvas\n      ref={canvasRef}\n      className=\"fixed inset-0 pointer-events-none z-0 opacity-30\"\n      style={{ mixBlendMode: 'screen' }}\n    />\n  );\n}\n
+'use client';
+
+import { useEffect, useRef } from 'react';
+
+export function ParticlesBackground() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    // Set canvas size
+    const resizeCanvas = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+    
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    // Particle system
+    const particles: Array<{
+      x: number;
+      y: number;
+      vx: number;
+      vy: number;
+      life: number;
+      maxLife: number;
+      size: number;
+    }> = [];
+
+    const createParticle = () => {
+      return {
+        x: Math.random() * canvas.width,
+        y: canvas.height + 20,
+        vx: (Math.random() - 0.5) * 0.5,
+        vy: -Math.random() * 2 - 1,
+        life: 0,
+        maxLife: Math.random() * 200 + 100,
+        size: Math.random() * 2 + 1,
+      };
+    };
+
+    // Animation loop
+    let animationId: number;
+    
+    const animate = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      // Add new particles
+      if (Math.random() < 0.3) {
+        particles.push(createParticle());
+      }
+      
+      // Update and draw particles
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const particle = particles[i];
+        
+        // Update position
+        particle.x += particle.vx;
+        particle.y += particle.vy;
+        particle.life++;
+        
+        // Calculate opacity based on life
+        const opacity = Math.max(0, 1 - (particle.life / particle.maxLife));
+        
+        // Remove dead particles
+        if (particle.life > particle.maxLife || particle.y < -20) {
+          particles.splice(i, 1);
+          continue;
+        }
+        
+        // Draw particle
+        ctx.save();
+        ctx.globalAlpha = opacity * 0.1;
+        ctx.fillStyle = 'hsl(260, 80%, 60%)';
+        ctx.beginPath();
+        ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
+      
+      animationId = requestAnimationFrame(animate);
+    };
+    
+    animate();
+
+    return () => {
+      window.removeEventListener('resize', resizeCanvas);
+      cancelAnimationFrame(animationId);
+    };
+  }, []);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className="fixed inset-0 pointer-events-none z-0 opacity-30"
+      style={{ mixBlendMode: 'screen' }}
+    />
+  );
+}

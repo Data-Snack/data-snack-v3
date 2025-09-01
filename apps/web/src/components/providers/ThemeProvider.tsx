@@ -1,1 +1,145 @@
-'use client';\n\nimport { createContext, useContext, useEffect, useState, ReactNode } from 'react';\n\ntype Theme = 'dark' | 'light' | 'system';\n\ntype ThemeProviderProps = {\n  children: ReactNode;\n  defaultTheme?: Theme;\n  storageKey?: string;\n  attribute?: string;\n  enableSystem?: boolean;\n  disableTransitionOnChange?: boolean;\n};\n\ntype ThemeProviderState = {\n  theme: Theme;\n  setTheme: (theme: Theme) => void;\n  systemTheme: 'dark' | 'light' | undefined;\n  resolvedTheme: 'dark' | 'light' | undefined;\n};\n\nconst initialState: ThemeProviderState = {\n  theme: 'system',\n  setTheme: () => null,\n  systemTheme: undefined,\n  resolvedTheme: undefined,\n};\n\nconst ThemeProviderContext = createContext<ThemeProviderState>(initialState);\n\nexport function ThemeProvider({\n  children,\n  defaultTheme = 'system',\n  storageKey = 'data-snack-theme',\n  attribute = 'class',\n  enableSystem = true,\n  disableTransitionOnChange = false,\n  ...props\n}: ThemeProviderProps) {\n  const [theme, setTheme] = useState<Theme>(() => {\n    if (typeof window !== 'undefined') {\n      return (localStorage.getItem(storageKey) as Theme) || defaultTheme;\n    }\n    return defaultTheme;\n  });\n  \n  const [systemTheme, setSystemTheme] = useState<'dark' | 'light' | undefined>();\n  const [resolvedTheme, setResolvedTheme] = useState<'dark' | 'light' | undefined>();\n\n  useEffect(() => {\n    const root = window.document.documentElement;\n\n    if (disableTransitionOnChange) {\n      const css = document.createElement('style');\n      css.appendChild(\n        document.createTextNode(\n          '*{-webkit-transition:none!important;-moz-transition:none!important;-o-transition:none!important;-ms-transition:none!important;transition:none!important}'\n        )\n      );\n      document.head.appendChild(css);\n\n      return () => {\n        (() => window.getComputedStyle(document.body))();\n        setTimeout(() => {\n          document.head.removeChild(css);\n        }, 1);\n      };\n    }\n  }, [disableTransitionOnChange]);\n\n  useEffect(() => {\n    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');\n    \n    const updateSystemTheme = () => {\n      const isDark = mediaQuery.matches;\n      setSystemTheme(isDark ? 'dark' : 'light');\n    };\n    \n    updateSystemTheme();\n    mediaQuery.addEventListener('change', updateSystemTheme);\n    \n    return () => mediaQuery.removeEventListener('change', updateSystemTheme);\n  }, []);\n\n  useEffect(() => {\n    const root = window.document.documentElement;\n    \n    // Calculate resolved theme\n    let resolved: 'dark' | 'light';\n    if (theme === 'system') {\n      resolved = systemTheme || 'dark';\n    } else {\n      resolved = theme;\n    }\n    \n    setResolvedTheme(resolved);\n    \n    // Apply theme to DOM\n    root.classList.remove('light', 'dark');\n    \n    if (attribute === 'class') {\n      root.classList.add(resolved);\n    } else {\n      root.setAttribute(attribute, resolved);\n    }\n    \n    // Adaptive color scheme based on time\n    const hour = new Date().getHours();\n    root.classList.remove('adaptive-warm', 'adaptive-cool', 'adaptive-night');\n    \n    if (hour >= 6 && hour < 12) {\n      root.classList.add('adaptive-warm'); // Morning - warm colors\n    } else if (hour >= 12 && hour < 18) {\n      root.classList.add('adaptive-cool'); // Afternoon - cool colors  \n    } else {\n      root.classList.add('adaptive-night'); // Evening/Night - deep colors\n    }\n  }, [theme, systemTheme, attribute]);\n\n  const value = {\n    theme,\n    setTheme: (theme: Theme) => {\n      localStorage.setItem(storageKey, theme);\n      setTheme(theme);\n    },\n    systemTheme,\n    resolvedTheme,\n  };\n\n  return (\n    <ThemeProviderContext.Provider {...props} value={value}>\n      {children}\n    </ThemeProviderContext.Provider>\n  );\n}\n\nexport const useTheme = () => {\n  const context = useContext(ThemeProviderContext);\n\n  if (context === undefined)\n    throw new Error('useTheme must be used within a ThemeProvider');\n\n  return context;\n};\n", "oldText": "", "path": "/Users/frankbultge/Documents/GitHub/data-snack-v3/apps/web/src/components/providers/ThemeProvider.tsx"}]
+'use client';
+
+import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+
+type Theme = 'dark' | 'light' | 'system';
+
+type ThemeProviderProps = {
+  children: ReactNode;
+  defaultTheme?: Theme;
+  storageKey?: string;
+  attribute?: string;
+  enableSystem?: boolean;
+  disableTransitionOnChange?: boolean;
+};
+
+type ThemeProviderState = {
+  theme: Theme;
+  setTheme: (theme: Theme) => void;
+  systemTheme: 'dark' | 'light' | undefined;
+  resolvedTheme: 'dark' | 'light' | undefined;
+};
+
+const initialState: ThemeProviderState = {
+  theme: 'system',
+  setTheme: () => null,
+  systemTheme: undefined,
+  resolvedTheme: undefined,
+};
+
+const ThemeProviderContext = createContext<ThemeProviderState>(initialState);
+
+export function ThemeProvider({
+  children,
+  defaultTheme = 'system',
+  storageKey = 'data-snack-theme',
+  attribute = 'class',
+  enableSystem = true,
+  disableTransitionOnChange = false,
+  ...props
+}: ThemeProviderProps) {
+  const [theme, setTheme] = useState<Theme>(() => {
+    if (typeof window !== 'undefined') {
+      return (localStorage.getItem(storageKey) as Theme) || defaultTheme;
+    }
+    return defaultTheme;
+  });
+  
+  const [systemTheme, setSystemTheme] = useState<'dark' | 'light' | undefined>();
+  const [resolvedTheme, setResolvedTheme] = useState<'dark' | 'light' | undefined>();
+
+  useEffect(() => {
+    const root = window.document.documentElement;
+
+    if (disableTransitionOnChange) {
+      const css = document.createElement('style');
+      css.appendChild(
+        document.createTextNode(
+          '*{-webkit-transition:none!important;-moz-transition:none!important;-o-transition:none!important;-ms-transition:none!important;transition:none!important}'
+        )
+      );
+      document.head.appendChild(css);
+
+      return () => {
+        (() => window.getComputedStyle(document.body))();
+        setTimeout(() => {
+          document.head.removeChild(css);
+        }, 1);
+      };
+    }
+  }, [disableTransitionOnChange]);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    
+    const updateSystemTheme = () => {
+      const isDark = mediaQuery.matches;
+      setSystemTheme(isDark ? 'dark' : 'light');
+    };
+    
+    updateSystemTheme();
+    mediaQuery.addEventListener('change', updateSystemTheme);
+    
+    return () => mediaQuery.removeEventListener('change', updateSystemTheme);
+  }, []);
+
+  useEffect(() => {
+    const root = window.document.documentElement;
+    
+    // Calculate resolved theme
+    let resolved: 'dark' | 'light';
+    if (theme === 'system') {
+      resolved = systemTheme || 'dark';
+    } else {
+      resolved = theme;
+    }
+    
+    setResolvedTheme(resolved);
+    
+    // Apply theme to DOM
+    root.classList.remove('light', 'dark');
+    
+    if (attribute === 'class') {
+      root.classList.add(resolved);
+    } else {
+      root.setAttribute(attribute, resolved);
+    }
+    
+    // Adaptive color scheme based on time
+    const hour = new Date().getHours();
+    root.classList.remove('adaptive-warm', 'adaptive-cool', 'adaptive-night');
+    
+    if (hour >= 6 && hour < 12) {
+      root.classList.add('adaptive-warm'); // Morning - warm colors
+    } else if (hour >= 12 && hour < 18) {
+      root.classList.add('adaptive-cool'); // Afternoon - cool colors  
+    } else {
+      root.classList.add('adaptive-night'); // Evening/Night - deep colors
+    }
+  }, [theme, systemTheme, attribute]);
+
+  const value = {
+    theme,
+    setTheme: (theme: Theme) => {
+      localStorage.setItem(storageKey, theme);
+      setTheme(theme);
+    },
+    systemTheme,
+    resolvedTheme,
+  };
+
+  return (
+    <ThemeProviderContext.Provider {...props} value={value}>
+      {children}
+    </ThemeProviderContext.Provider>
+  );
+}
+
+export const useTheme = () => {
+  const context = useContext(ThemeProviderContext);
+
+  if (context === undefined)
+    throw new Error('useTheme must be used within a ThemeProvider');
+
+  return context;
+};
