@@ -141,7 +141,7 @@ export class AnalyticsService {
     return speeds.reduce((a, b) => a + b, 0) / speeds.length;
   }
 
-  private calculateAccuracy(clicks: BehaviorPattern['clicks']): number {
+  private calculateAccuracy(_clicks: BehaviorPattern['clicks']): number {
     // Simplified accuracy calculation
     // In real implementation, would check against actual targets
     return 0.85 + Math.random() * 0.15;
@@ -165,7 +165,7 @@ export class AnalyticsService {
     return delays.length / clicks.length;
   }
 
-  private detectPatterns(clicks: BehaviorPattern['clicks']): { repetitive: number; efficient: number } {
+  private detectPatterns(_clicks: BehaviorPattern['clicks']): { repetitive: number; efficient: number } {
     // Simplified pattern detection
     return {
       repetitive: 0.3 + Math.random() * 0.4,

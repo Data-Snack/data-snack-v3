@@ -1,1 +1,15 @@
-{\n  \"extends\": \"../../tsconfig.json\",\n  \"compilerOptions\": {\n    \"baseUrl\": \".\",\n    \"outDir\": \"./dist\",\n    \"rootDir\": \"./src\",\n    \"module\": \"CommonJS\",\n    \"target\": \"ES2022\",\n    \"moduleResolution\": \"node\",\n    \"allowSyntheticDefaultImports\": true,\n    \"esModuleInterop\": true\n  },\n  \"include\": [\"src/**/*\"],\n  \"exclude\": [\"dist\", \"node_modules\", \"**/*.test.ts\", \"**/*.spec.ts\"]\n}\n
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "module": "CommonJS",
+    "target": "ES2022",
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true
+  },
+  "include": ["src/**/*"],
+  "exclude": ["dist", "node_modules", "**/*.test.ts", "**/*.spec.ts"]
+}

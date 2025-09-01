@@ -18,7 +18,8 @@ export interface ConsentState {
   personalization: boolean;
 }
 
-interface QueuedEvent extends TrackingEvent {
+interface QueuedEvent {
+  event: TrackingEvent;
   retries: number;
 }
 
@@ -123,7 +124,7 @@ export class DataSnackSDK {
     }
 
     const queuedEvent: QueuedEvent = {
-      ...event,
+      event,
       retries: 0,
     };
 
@@ -192,10 +193,13 @@ export class DataSnackSDK {
   }[]): void {
     if (!this.consent.personalization) return;
 
+    const start = pattern[0];
+    const end = pattern[pattern.length - 1];
+    const duration = start && end ? end.timestamp - start.timestamp : 0;
     this.track('click_dna', {
       pattern,
       patternLength: pattern.length,
-      duration: pattern[pattern.length - 1].timestamp - pattern[0].timestamp,
+      duration,
     });
   }
 
@@ -207,10 +211,14 @@ export class DataSnackSDK {
   }[]): void {
     if (!this.consent.analytics) return;
 
+    const start = behavior[0];
+    const end = behavior[behavior.length - 1];
+    const duration = start && end ? end.timestamp - start.timestamp : 0;
+    const totalScrolled = behavior.length > 0 ? Math.max(...behavior.map(b => b.scrollY)) : 0;
     this.track('scroll_behavior', {
       behavior,
-      totalScrolled: Math.max(...behavior.map(b => b.scrollY)),
-      duration: behavior[behavior.length - 1].timestamp - behavior[0].timestamp,
+      totalScrolled,
+      duration,
     });
   }
 
@@ -299,7 +307,7 @@ export class DataSnackSDK {
     this.queue = [];
 
     try {
-      await this.sendEvents(eventsToSend);
+        await this.sendEvents(eventsToSend);
       
       if (this.config.debug) {
         console.log(`[DataSnack SDK] Successfully sent ${eventsToSend.length} events`);
@@ -310,16 +318,16 @@ export class DataSnackSDK {
       }
 
       // Re-queue events with retry logic
-      eventsToSend.forEach(event => {
-        if (event.retries < (this.config.maxRetries || 3)) {
-          event.retries++;
-          this.queue.unshift(event);
-        }
-      });
+        eventsToSend.forEach(event => {
+          if (event.retries < (this.config.maxRetries || 3)) {
+            event.retries++;
+            this.queue.unshift(event);
+          }
+        });
     }
   }
 
-  private async sendEvents(events: QueuedEvent[]): Promise<void> {
+    private async sendEvents(events: QueuedEvent[]): Promise<void> {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), this.config.timeout);
 
@@ -330,7 +338,7 @@ export class DataSnackSDK {
           'Content-Type': 'application/json',
           ...(this.config.apiKey && { 'Authorization': `Bearer ${this.config.apiKey}` }),
         },
-        body: JSON.stringify({ events }),
+          body: JSON.stringify({ events: events.map(e => e.event.toJSON()) }),
         signal: controller.signal,
         keepalive: true,
       });
