@@ -1,0 +1,1 @@
+'use client';\n\nexport function Toaster() {\n  return (\n    <div \n      id=\"toast-container\" \n      className=\"fixed top-4 right-4 z-50 max-w-md space-y-4\"\n    >\n      {/* Toast notifications will be rendered here */}\n    </div>\n  );\n}\n
