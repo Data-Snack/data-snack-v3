@@ -1,1 +1,135 @@
-import { NextRequest, NextResponse } from 'next/server';\nimport { ServerTracker } from '@data-snack/tracking';\nimport { TrackingEvent } from '@data-snack/core';\nimport { z } from 'zod';\n\n// Request validation schema\nconst TrackingRequestSchema = z.object({\n  events: z.array(z.object({\n    type: z.string(),\n    name: z.string(),\n    properties: z.record(z.unknown()).default({}),\n    context: z.record(z.unknown()).default({}),\n    sessionId: z.string(),\n    userId: z.string().optional(),\n    timestamp: z.string().datetime().optional(),\n  })),\n});\n\n// Initialize server tracker\nconst tracker = new ServerTracker({\n  enableDatabase: true,\n  enableGTMServer: false, // We handle GTM forwarding separately\n  enableAnalytics: true,\n  debug: process.env.NODE_ENV === 'development',\n});\n\n// CORS headers\nconst corsHeaders = {\n  'Access-Control-Allow-Origin': process.env.NODE_ENV === 'development' \n    ? '*' \n    : 'https://data-snack.com',\n  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',\n  'Access-Control-Allow-Headers': 'Content-Type, Authorization',\n  'Access-Control-Max-Age': '86400',\n};\n\n// Handle CORS preflight\nexport async function OPTIONS() {\n  return new NextResponse(null, {\n    status: 204,\n    headers: corsHeaders,\n  });\n}\n\n// Main tracking endpoint\nexport async function POST(request: NextRequest) {\n  try {\n    // Parse and validate request body\n    const body = await request.json();\n    const { events } = TrackingRequestSchema.parse(body);\n    \n    // Get client info from headers\n    const userAgent = request.headers.get('user-agent') || 'Unknown';\n    const forwarded = request.headers.get('x-forwarded-for');\n    const realIp = request.headers.get('x-real-ip');\n    const clientIp = forwarded?.split(',')[0] || realIp || 'unknown';\n    \n    // Convert to TrackingEvent instances\n    const trackingEvents = events.map(eventData => {\n      const event = TrackingEvent.create(\n        eventData.type as any,\n        eventData.name,\n        eventData.properties,\n        {\n          ...eventData.context,\n          userAgent,\n          ip: clientIp,\n          timestamp: eventData.timestamp || new Date().toISOString(),\n          // Add server-side context\n          serverTimestamp: new Date().toISOString(),\n          origin: request.headers.get('origin') || 'unknown',\n          referer: request.headers.get('referer') || '',\n        }\n      ).withSession(eventData.sessionId);\n      \n      if (eventData.userId) {\n        return event.withUser(eventData.userId as any);\n      }\n      \n      return event;\n    });\n    \n    // Track events using server tracker\n    await tracker.trackBatch(trackingEvents);\n    \n    // Return success response\n    return new NextResponse(null, {\n      status: 204, // No Content\n      headers: {\n        ...corsHeaders,\n        'Cache-Control': 'no-cache, no-store, must-revalidate',\n      },\n    });\n    \n  } catch (error) {\n    console.error('[API] Tracking error:', error);\n    \n    // Return appropriate error response\n    if (error instanceof z.ZodError) {\n      return NextResponse.json(\n        { \n          error: 'Invalid request format',\n          details: error.errors,\n        },\n        { \n          status: 400,\n          headers: corsHeaders,\n        }\n      );\n    }\n    \n    return NextResponse.json(\n      { error: 'Internal server error' },\n      { \n        status: 500,\n        headers: corsHeaders,\n      }\n    );\n  }\n}\n\n// Health check endpoint\nexport async function GET() {\n  return NextResponse.json(\n    {\n      status: 'healthy',\n      timestamp: new Date().toISOString(),\n      service: 'tracking-api',\n      version: process.env.npm_package_version || '0.0.0',\n    },\n    {\n      headers: corsHeaders,\n    }\n  );\n}\n
+import { NextRequest, NextResponse } from 'next/server';
+import { ServerTracker } from '@data-snack/tracking';
+import { TrackingEvent } from '@data-snack/core';
+import { z } from 'zod';
+
+// Request validation schema
+const TrackingRequestSchema = z.object({
+  events: z.array(
+    z.object({
+      type: z.string(),
+      name: z.string(),
+      properties: z.record(z.unknown()).default({}),
+      context: z.record(z.unknown()).default({}),
+      sessionId: z.string(),
+      userId: z.string().optional(),
+      timestamp: z.string().datetime().optional(),
+    }),
+  ),
+});
+
+// Initialize server tracker
+const tracker = new ServerTracker({
+  enableDatabase: true,
+  enableGTMServer: false, // We handle GTM forwarding separately
+  enableAnalytics: true,
+  debug: process.env.NODE_ENV === 'development',
+});
+
+// CORS headers
+const corsHeaders = {
+  'Access-Control-Allow-Origin':
+    process.env.NODE_ENV === 'development' ? '*' : 'https://data-snack.com',
+  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+  'Access-Control-Max-Age': '86400',
+};
+
+// Handle CORS preflight
+export async function OPTIONS() {
+  return new NextResponse(null, {
+    status: 204,
+    headers: corsHeaders,
+  });
+}
+
+// Main tracking endpoint
+export async function POST(request: NextRequest) {
+  try {
+    // Parse and validate request body
+    const body = await request.json();
+    const { events } = TrackingRequestSchema.parse(body);
+
+    // Get client info from headers
+    const userAgent = request.headers.get('user-agent') || 'Unknown';
+    const forwarded = request.headers.get('x-forwarded-for');
+    const realIp = request.headers.get('x-real-ip');
+    const clientIp = forwarded?.split(',')[0] || realIp || 'unknown';
+
+    // Convert to TrackingEvent instances
+    const trackingEvents = events.map(eventData => {
+      const event = TrackingEvent.create(
+        eventData.type as any,
+        eventData.name,
+        eventData.properties,
+        {
+          ...eventData.context,
+          userAgent,
+          ip: clientIp,
+          timestamp: eventData.timestamp || new Date().toISOString(),
+          // Add server-side context
+          serverTimestamp: new Date().toISOString(),
+          origin: request.headers.get('origin') || 'unknown',
+          referer: request.headers.get('referer') || '',
+        },
+      ).withSession(eventData.sessionId);
+
+      if (eventData.userId) {
+        return event.withUser(eventData.userId as any);
+      }
+
+      return event;
+    });
+
+    // Track events using server tracker
+    await tracker.trackBatch(trackingEvents);
+
+    // Return success response
+    return new NextResponse(null, {
+      status: 204, // No Content
+      headers: {
+        ...corsHeaders,
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+      },
+    });
+  } catch (error) {
+    console.error('[API] Tracking error:', error);
+
+    // Return appropriate error response
+    if (error instanceof z.ZodError) {
+      return NextResponse.json(
+        {
+          error: 'Invalid request format',
+          details: error.errors,
+        },
+        {
+          status: 400,
+          headers: corsHeaders,
+        },
+      );
+    }
+
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      {
+        status: 500,
+        headers: corsHeaders,
+      },
+    );
+  }
+}
+
+// Health check endpoint
+export async function GET() {
+  return NextResponse.json(
+    {
+      status: 'healthy',
+      timestamp: new Date().toISOString(),
+      service: 'tracking-api',
+      version: process.env.npm_package_version || '0.0.0',
+    },
+    {
+      headers: corsHeaders,
+    },
+  );
+}
