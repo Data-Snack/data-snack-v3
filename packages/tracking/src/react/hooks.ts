@@ -6,6 +6,7 @@ import type { EventType, EventProperties, EventContext } from '@data-snack/core'
 // React Hook für DataSnack SDK
 export function useDataSnack(sdk?: DataSnackSDK) {
   const sdkRef = useRef<DataSnackSDK | null>(sdk || null);
+  useEffect(() => { sdkRef.current = sdk || null; }, [sdk]);
 
   const track = useCallback((
     type: EventType | string,
