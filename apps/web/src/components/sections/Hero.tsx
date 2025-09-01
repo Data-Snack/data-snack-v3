@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { Button } from '@data-snack/ui';
-import { useDataSnack } from '@data-snack/tracking';
+import { useDataSnack } from '@data-snack/tracking/react';
 
 export function Hero() {
   const { track } = useDataSnack();

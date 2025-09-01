@@ -1,7 +1,7 @@
 'use client';
 
 import { ReactNode } from 'react';
-import { DataSnackProvider, TrackingDebugger } from '@data-snack/tracking';
+import { DataSnackProvider, TrackingDebugger } from '@data-snack/tracking/react';
 
 interface TrackingProviderProps {
   children: ReactNode;
