@@ -4,7 +4,7 @@ import { Hero } from '@/components/sections/Hero';
 import { SnackGrid } from '@/components/sections/SnackGrid';
 import { StatsOverview } from '@/components/sections/StatsOverview';
 import { TelemetryPanel } from '@/components/sections/TelemetryPanel';
-import { ConsentBanner } from '@data-snack/tracking';
+import { ConsentBanner } from '@data-snack/tracking/react';
 import { PageTracking } from '@/components/tracking/PageTracking';
 
 export const metadata: Metadata = {
