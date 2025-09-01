@@ -27,12 +27,12 @@ export function DataSnackProvider({
   const [consent, setConsent] = useState<ConsentState | null>(null);
 
   useEffect(() => {
+    const sdkInstance = new DataSnackSDK(config);
     try {
-      const sdkInstance = new DataSnackSDK(config);
       setSdk(sdkInstance);
       setConsent(sdkInstance.getConsent());
       setIsInitialized(true);
-      
+
       if (onInitialized) {
         onInitialized(sdkInstance);
       }
@@ -52,11 +52,7 @@ export function DataSnackProvider({
       }
     }
 
-    return () => {
-      if (sdk) {
-        sdk.destroy();
-      }
-    };
+    return () => sdkInstance.destroy();
   }, [config]);
 
   return (
