@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useDataSnack } from '@data-snack/tracking';
+import { useDataSnack } from '@data-snack/tracking/react';
 
 interface PageTrackingProps {
   pageName: string;

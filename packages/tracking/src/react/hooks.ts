@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useCallback, useRef } from 'react';
 import { DataSnackSDK, ConsentState } from '../sdk/DataSnackSDK';
 import type { TrackingEvent } from '@data-snack/core';

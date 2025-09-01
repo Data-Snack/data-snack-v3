@@ -4,8 +4,8 @@ import { Hero } from '@/components/sections/Hero';
 import { SnackGrid } from '@/components/sections/SnackGrid';
 import { StatsOverview } from '@/components/sections/StatsOverview';
 import { TelemetryPanel } from '@/components/sections/TelemetryPanel';
-import { ConsentBanner } from '@data-snack/tracking';
 import { PageTracking } from '@/components/tracking/PageTracking';
+import { ConsentBanner } from '@/components/tracking/ConsentBanner';
 
 export const metadata: Metadata = {
   title: 'Data Snack - Entdecke deine digitale DNA',
@@ -24,20 +24,7 @@ export default function HomePage() {
       <PageTracking pageName="home" />
       
       {/* Consent Management */}
-      <ConsentBanner
-        onAcceptAll={() => {
-          // Analytics: Track full consent
-          console.log('User granted full consent');
-        }}
-        onDeclineAll={() => {
-          // Analytics: Track minimal consent
-          console.log('User declined tracking');
-        }}
-        onCustomize={() => {
-          // Open consent customization
-          console.log('User wants to customize consent');
-        }}
-      />
+      <ConsentBanner />
       
       {/* Hero Section */}
       <section className="min-h-screen flex items-center justify-center px-4 py-20">
