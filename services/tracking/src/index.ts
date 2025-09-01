@@ -166,7 +166,7 @@ app.post<{
   try {
     const eventData = request.body;
     
-    const event = TrackingEvent.create(
+    let event = TrackingEvent.create(
       eventData.type as any,
       eventData.name,
       eventData.properties,
@@ -178,7 +178,7 @@ app.post<{
     ).withSession(eventData.sessionId);
 
     if (eventData.userId) {
-      event.withUser(eventData.userId as any);
+      event = event.withUser(eventData.userId as any);
     }
 
     await tracker.track(event);
@@ -209,7 +209,7 @@ app.post('/consent', async (request, reply) => {
   const { consent, userId, sessionId } = request.body as any;
   
   try {
-    const consentEvent = TrackingEvent.create(
+    let consentEvent = TrackingEvent.create(
       'consent_change',
       'consent_update',
       { 
@@ -223,7 +223,7 @@ app.post('/consent', async (request, reply) => {
     ).withSession(sessionId);
 
     if (userId) {
-      consentEvent.withUser(userId);
+      consentEvent = consentEvent.withUser(userId as any);
     }
 
     await tracker.track(consentEvent);
