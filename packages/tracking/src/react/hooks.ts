@@ -1,6 +1,10 @@
 import { useEffect, useCallback, useRef } from 'react';
 import { DataSnackSDK, ConsentState } from '../sdk/DataSnackSDK';
-import type { EventType, EventProperties, EventContext } from '@data-snack/core';
+import type { TrackingEvent } from '@data-snack/core';
+
+type EventType = TrackingEvent['type'];
+type EventProperties = TrackingEvent['properties'];
+type EventContext = TrackingEvent['context'];
 
 // React Hook für DataSnack SDK
 export function useDataSnack(sdk?: DataSnackSDK) {

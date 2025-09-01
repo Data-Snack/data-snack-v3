@@ -1,1 +1,26 @@
-'use client';\n\nimport { useEffect } from 'react';\nimport { useDataSnack } from '@data-snack/tracking';\n\ninterface PageTrackingProps {\n  pageName: string;\n  properties?: Record<string, any>;\n}\n\nexport function PageTracking({ pageName, properties = {} }: PageTrackingProps) {\n  const { track } = useDataSnack();\n\n  useEffect(() => {\n    track('page_view', {\n      page: pageName,\n      url: window.location.href,\n      title: document.title,\n      referrer: document.referrer,\n      timestamp: Date.now(),\n      ...properties,\n    });\n  }, [pageName, track, properties]);\n\n  return null; // This component doesn't render anything\n}\n
+'use client';
+
+import { useEffect } from 'react';
+import { useDataSnack } from '@data-snack/tracking';
+
+interface PageTrackingProps {
+  pageName: string;
+  properties?: Record<string, any>;
+}
+
+export function PageTracking({ pageName, properties = {} }: PageTrackingProps) {
+  const { track } = useDataSnack();
+
+  useEffect(() => {
+    track('page_view', {
+      page: pageName,
+      url: window.location.href,
+      title: document.title,
+      referrer: document.referrer,
+      timestamp: Date.now(),
+      ...properties,
+    });
+  }, [pageName, track, properties]);
+
+  return null;
+}

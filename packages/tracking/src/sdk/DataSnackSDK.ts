@@ -1,5 +1,8 @@
 import { TrackingEvent } from '@data-snack/core';
-import type { EventType, EventContext, EventProperties } from '@data-snack/core';
+
+type EventType = TrackingEvent['type'];
+type EventContext = TrackingEvent['context'];
+type EventProperties = TrackingEvent['properties'];
 
 export interface SDKConfig {
   endpoint: string;

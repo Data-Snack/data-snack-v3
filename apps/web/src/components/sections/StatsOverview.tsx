@@ -1,1 +1,26 @@
-'use client';\n\nimport { useState, useEffect } from 'react';\n\nexport function StatsOverview() {\n  const [stats, setStats] = useState({\n    totalUsers: 0,\n    totalEvents: 0,\n    averagePrivacyScore: 0,\n    dataPointsCollected: 0,\n  });\n\n  useEffect(() => {\n    // Simulate loading stats\n    const timer = setTimeout(() => {\n      setStats({\n        totalUsers: 1234,\n        totalEvents: 45678,\n        averagePrivacyScore: 73.5,\n        dataPointsCollected: 892456,\n      });\n    }, 1000);\n\n    return () => clearTimeout(timer);\n  }, []);\n\n  return (\n    <div className=\"glass rounded-2xl p-8\">\n      <div className=\"grid grid-cols-1 md:grid-cols-4 gap-8\">\n        <div className=\"text-center\">\n          <div className=\"text-3xl font-bold text-primary mb-2\">\n            {stats.totalUsers.toLocaleString('de')}\n          </div>\n          <div className=\"text-muted-foreground\">\n            👥 Aktive User\n          </div>\n        </div>\n        \n        <div className=\"text-center\">\n          <div className=\"text-3xl font-bold text-secondary mb-2\">\n            {stats.totalEvents.toLocaleString('de')}\n          </div>\n          <div className=\"text-muted-foreground\">\n            📊 Tracking Events\n          </div>\n        </div>\n        \n        <div className=\"text-center\">\n          <div className=\"text-3xl font-bold text-green-400 mb-2\">\n            {stats.averagePrivacyScore}%\n          </div>\n          <div className=\"text-muted-foreground\">\n            🛡️ Privacy Score\n          </div>\n        </div>\n        \n        <div className=\"text-center\">\n          <div className=\"text-3xl font-bold text-yellow-400 mb-2\">\n            {stats.dataPointsCollected.toLocaleString('de')}\n          </div>\n          <div className=\"text-muted-foreground\">\n            🔍 Data Points\n          </div>\n        </div>\n      </div>\n      \n      <div className=\"mt-8 pt-8 border-t border-white/10\">\n        <div className=\"text-center text-sm text-muted-foreground\">\n          🔄 Updates in Echtzeit - Letzte Aktualisierung: {new Date().toLocaleTimeString('de')}\n        </div>\n      </div>\n    </div>\n  );\n}\n
+'use client';
+
+import { useState, useEffect } from 'react';
+
+export function StatsOverview() {
+  const [stats, setStats] = useState({
+    totalUsers: 0,
+    totalEvents: 0,
+    averagePrivacyScore: 0,
+  });
+
+  useEffect(() => {
+    // placeholder: load stats
+  }, []);
+
+  return (
+    <div className="glass rounded-xl p-4">
+      <h4 className="font-semibold mb-2">Stats Overview</h4>
+      <ul className="space-y-1 text-sm">
+        <li>Total Users: {stats.totalUsers}</li>
+        <li>Total Events: {stats.totalEvents}</li>
+        <li>Average Privacy Score: {stats.averagePrivacyScore}</li>
+      </ul>
+    </div>
+  );
+}
