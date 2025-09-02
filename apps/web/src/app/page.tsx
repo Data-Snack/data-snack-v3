@@ -177,7 +177,7 @@ export default function HomePage() {
           
           <div className="mt-12 pt-8 border-t border-white/10 text-center text-muted-foreground">
             <p>
-              Â© 2024 Data Snack. Made with â¤ï¸ for digital privacy education.
+              © 2024 Data Snack. Made with ❤️ for digital privacy education.
             </p>
             <p className="mt-2 text-sm">
               Ein experimentelles Projekt von Frank Bueltge
